@@ -11,6 +11,7 @@ def resolver():
     mult = .969
 
     y_train = train["price_doc"] * mult + 10
+    id_train = train["id"].values
     x_train = train.drop(["id", "timestamp", "price_doc"], axis=1)
     x_test = test.drop(["id", "timestamp"], axis=1)
 
@@ -26,4 +27,4 @@ def resolver():
             lbl.fit(list(x_test[c].values))
             x_test[c] = lbl.transform(list(x_test[c].values))
 
-    return x_train, y_train, x_test
+    return id_train, x_train.values, y_train.values, x_test.values

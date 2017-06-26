@@ -26,7 +26,7 @@ class Resolver(object):
         y_train = df_train['price_doc'].values * mult + 10
         id_test = df_test['id']
 
-        df_train.drop(['id', 'price_doc'], axis=1, inplace=True)
+        df_train.drop(['price_doc'], axis=1, inplace=True)
         df_test.drop(['id'], axis=1, inplace=True)
 
         num_train = len(df_train)

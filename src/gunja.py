@@ -79,7 +79,7 @@ def resolver():
     train.loc[bad_index, "state"] = np.NaN
     test.state.value_counts()
 
-    print train.shape
+
     # brings error down a lot by removing extreme price per sqm
     train.loc[train.full_sq == 0, 'full_sq'] = 50
     train = train[train.price_doc/train.full_sq <= 600000]
@@ -123,7 +123,6 @@ def resolver():
     train['room_size'] = train['life_sq'] / train['num_room'].astype(float)
     test['room_size'] = test['life_sq'] / test['num_room'].astype(float)
 
-    print train.shape
     #########################################################################
 
     # Aggreagte house price data derived from 
@@ -227,6 +226,7 @@ def resolver():
 
     #########################################################################################################
 
+    id = train['id'].values
     x_train = train.drop(["id", "timestamp", "price_doc", "average_q_price"], axis=1)
     #x_test = test.drop(["id", "timestamp", "average_q_price"], axis=1)
     x_test = test.drop(["id", "timestamp"], axis=1)
@@ -242,5 +242,5 @@ def resolver():
 
     x_train = x_all[:num_train]
     x_test = x_all[num_train:]
-    print x_train.shape
-    return x_train, y_train, x_test
+
+    return id, x_train.values, y_train.values, x_test.values
