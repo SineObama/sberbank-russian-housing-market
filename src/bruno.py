@@ -1,9 +1,6 @@
 import numpy as np
 import pandas as pd
-from sklearn import model_selection, preprocessing
 import xgboost as xgb
-import datetime
-from scipy.stats import norm
 
 df_train = pd.read_csv("../input/train.csv", parse_dates=['timestamp'])
 df_test = pd.read_csv("../input/test.csv", parse_dates=['timestamp'])
@@ -42,7 +39,7 @@ df_all['dow'] = df_all.timestamp.dt.dayofweek
 # Other feature engineering
 df_all['rel_floor'] = df_all['floor'] / df_all['max_floor'].astype(float)
 df_all['rel_kitch_sq'] = df_all['kitch_sq'] / df_all['full_sq'].astype(float)
-
+''' 未知无效的插入代码？
 train['building_name'] = pd.factorize(train.sub_area + train['metro_km_avto'].astype(str))[0]
 test['building_name'] = pd.factorize(test.sub_area + test['metro_km_avto'].astype(str))[0]
 
@@ -65,7 +62,7 @@ def add_time_features(col):
 
 add_time_features('building_name')
 add_time_features('sub_area')
-
+'''
 
 # Remove timestamp column (may overfit the model in train)
 df_all.drop(['timestamp', 'timestamp_macro'], axis=1, inplace=True)
@@ -115,8 +112,8 @@ xgb_params = {
     'silent': 1
 }
 
-dtrain = xgb.DMatrix(X_train, y_train, feature_names=df_columns)
-dtest = xgb.DMatrix(X_test, feature_names=df_columns)
+dtrain = xgb.DMatrix(X_train, y_train)
+dtest = xgb.DMatrix(X_test)
 
 num_boost_rounds = 420  # From Bruno's original CV, I think
 model = xgb.train(dict(xgb_params, silent=0), dtrain, num_boost_round=num_boost_rounds)

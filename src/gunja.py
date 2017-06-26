@@ -2,9 +2,8 @@
 
 import numpy as np
 import pandas as pd
-from sklearn import model_selection, preprocessing
+from sklearn import preprocessing
 import xgboost as xgb
-import datetime
 from scipy.stats import norm
 
 #load files
