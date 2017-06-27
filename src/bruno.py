@@ -36,7 +36,7 @@ def resolver():
     # Next line just adds a lot of NA columns (becuase "join" only works on indexes)
     # but somewhow it seems to affect the result
     df_all = df_all.join(df_macro, on='timestamp', rsuffix='_macro')
-    print(df_all.shape)
+    #print(df_all.shape)
 
     # Add month-year
     month_year = (df_all.timestamp.dt.month + df_all.timestamp.dt.year * 100)
@@ -92,7 +92,7 @@ def resolver():
         df_all.select_dtypes(exclude=['object']).values,
         np.array(list(map(factorize, df_obj.iteritems()))).T
     ]
-    print(X_all.shape)
+    #print(X_all.shape)
 
     X_train = X_all[:num_train]
     X_test = X_all[num_train:]
@@ -109,7 +109,7 @@ def resolver():
     
     # Convert to numpy values
     X_all = df_values.values
-    print(X_all.shape)
+    #print(X_all.shape)
 
     X_train = X_all[:num_train]
     X_test = X_all[num_train:]
