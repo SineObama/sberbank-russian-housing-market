@@ -1,6 +1,26 @@
 import numpy as np # linear algebra
 import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 from sklearn import model_selection
+import xgboost as xgb
+
+class XgbModel(object):
+    def __init__(self, params, num_boost_rounds):
+        self.params = params
+        self.num_boost_rounds = num_boost_rounds
+        
+    def copy(self):
+        return XgbModel(self.params, self.num_boost_rounds)
+    
+    def fit(self, X, y, T, v):
+        xgtrain = xgb.DMatrix(X, y)
+        xgval = xgb.DMatrix(T, v)
+        watchlist = [ (xgtrain,'train'), (xgval, 'val') ]
+        self.model = xgb.train(self.params, xgtrain, self.num_boost_rounds, watchlist, early_stopping_rounds=20, verbose_eval=50)
+        
+    def predict(self, X):
+        xgtest = xgb.DMatrix(X)
+        return self.model.predict(xgtest)
+
 class Stacking(object):
     def __init__(self, n_folds, base_models, data_resolver, feval):
         '''
@@ -27,11 +47,12 @@ class Stacking(object):
 
             S_train_i = np.zeros(len(y))
             for j, (train_idx, test_idx) in enumerate(folds):
+                print "fold",j
                 X_train = X[train_idx]
                 y_train = y[train_idx]
                 X_holdout = X[test_idx]
                 y_holdout = y[test_idx]
-                clf.fit(X_train, y_train)
+                clf.fit(X_train, y_train, X_holdout, y_holdout)
                 y_pred = clf.predict(X_holdout)[:]
                 print "train:",self.feval(clf.predict(X_train)[:], y_train),"val:",self.feval(y_pred, y_holdout)
                 S_train_i[test_idx] = y_pred
