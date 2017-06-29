@@ -3,7 +3,7 @@ import pandas as pd
 from sklearn import preprocessing
 import xgboost as xgb
 
-def resolver():
+def resolve():
     train = pd.read_csv('../input/train.csv')
     test = pd.read_csv('../input/test.csv')
     id_test = test.id

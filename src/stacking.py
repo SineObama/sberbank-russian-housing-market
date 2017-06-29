@@ -24,7 +24,7 @@ class XgbModel(object):
 class Stacking(object):
     def __init__(self, n_folds, base_models, data_resolver, feval):
         '''
-        data_resolver.next():X_train, y_train, X_test (np array)
+        data_resolver.next():id, X_train, y_train, X_test (np array)
         feval(predictions, targets):value
         '''
         self.n_folds = n_folds
@@ -42,12 +42,11 @@ class Stacking(object):
         for i, clf in enumerate(self.base_models):
             id, X, y, T = self.data_resolver.next()
             S_test_i = np.zeros((T.shape[0], self.n_folds))
-            print "model",i
             folds = kf.split(range(len(y)))
 
             S_train_i = np.zeros(len(y))
             for j, (train_idx, test_idx) in enumerate(folds):
-                print "fold",j
+                print "model",i,"fold",j
                 X_train = X[train_idx]
                 y_train = y[train_idx]
                 X_holdout = X[test_idx]

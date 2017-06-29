@@ -4,7 +4,7 @@ from sklearn import preprocessing
 import xgboost as xgb
 from scipy.stats import norm
 
-def resolver():
+def resolve():
     #load files
     train = pd.read_csv('../input/train.csv', parse_dates=['timestamp'])
     test = pd.read_csv('../input/test.csv', parse_dates=['timestamp'])

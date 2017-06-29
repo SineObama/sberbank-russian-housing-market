@@ -16,7 +16,7 @@ class Resolver(object):
     def get(self):
         if (self.__have == True):
             return self.X_train, self.y_train, self.X_test'''
-def resolver():
+def resolve():
     df_train = pd.read_csv("../input/train.csv", parse_dates=['timestamp'])
     df_test = pd.read_csv("../input/test.csv", parse_dates=['timestamp'])
     df_macro = pd.read_csv("../input/macro.csv", parse_dates=['timestamp'])
