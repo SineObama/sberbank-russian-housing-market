@@ -15,20 +15,8 @@ class RfrModel(object):
 
 def resolve():
     ###  read the train, test and macro files
-    train_df = pd.read_csv("../input/train.csv", parse_dates=['timestamp'], index_col='id')
-    train_df['id'] = train_df.index
-    test_df = pd.read_csv("../input/test.csv", parse_dates=['timestamp'], index_col='id')
-    test_df['id'] = test_df.index
-    macro_df = pd.read_csv("../input/macro.csv", parse_dates=['timestamp'])
-    fx = pd.read_excel('../input/BAD_ADDRESS_FIX.xlsx').drop_duplicates('id').set_index('id')
-    train_df.update(fx)
-    test_df.update(fx)
-    print(train_df.shape, test_df.shape)
-    
-    # combine macro information with train and test
-    train_df = pd.merge(train_df, macro_df, how='left', on='timestamp')
-    test_df = pd.merge(test_df, macro_df, how='left', on='timestamp')
-    print(train_df.shape, test_df.shape)
+    train_df = pd.read_csv("../input/train.csv", parse_dates=['timestamp'])
+    test_df = pd.read_csv("../input/test.csv", parse_dates=['timestamp'])
     
     # undersampling by magic numbers
 #     trainsub = train_df[train_df.timestamp < '2015-01-01']
